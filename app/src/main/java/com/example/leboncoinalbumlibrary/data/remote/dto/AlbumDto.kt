@@ -1,4 +1,4 @@
-package com.example.leboncoinalbumlibrary.data.remote
+package com.example.leboncoinalbumlibrary.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
