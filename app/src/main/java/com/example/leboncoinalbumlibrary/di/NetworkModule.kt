@@ -1,6 +1,6 @@
 package com.example.leboncoinalbumlibrary.di
 
-import com.example.leboncoinalbumlibrary.data.remote.api.ApiService
+import com.example.leboncoinalbumlibrary.data.remote.api.AlbumApiService
 import com.example.leboncoinalbumlibrary.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -16,22 +16,16 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideBaseUrl(): String {
-        return Constants.API_BASE_URL
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(baseUrl: String): Retrofit {
+    fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(Constants.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
     @Provides
     @Singleton
-    fun provideAlbumApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
+    fun provideAlbumApiService(retrofit: Retrofit): AlbumApiService {
+        return retrofit.create(AlbumApiService::class.java)
     }
 }
