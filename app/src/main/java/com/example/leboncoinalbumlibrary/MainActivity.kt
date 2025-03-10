@@ -25,19 +25,9 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    AlbumList()
-//                    val state = viewModel.uiState.collectAsState().value
-//                    //test vciewModel is working
-//                    when (state) {
-//                        is AlbumListUiState.Loading -> Text("Loading...")
-//                        is AlbumListUiState.Success -> Text("Loaded ${state.albums.size} albums")
-//                        is AlbumListUiState.Error -> Text("Error: ${state.message}")
-//                        is AlbumListUiState.Empty -> Text("Found no albums there")
-
-
                     val state = viewModel.uiState.collectAsState().value
 
-                    AlbumListScreen (
+                    AlbumListScreen(
                         state = state,
                         onRetry = viewModel::loadAlbums
                     )
