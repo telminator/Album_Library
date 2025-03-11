@@ -12,7 +12,6 @@ import com.example.leboncoinalbumlibrary.presentation.viewmodel.AlbumListViewMod
 import com.example.leboncoinalbumlibrary.ui.theme.LeboncoinAlbumLibraryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -26,10 +25,12 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val state = viewModel.uiState.collectAsState().value
+                    val isRefreshing = viewModel.isRefreshing.collectAsState().value
 
                     AlbumListScreen(
                         state = state,
-                        onRetry = viewModel::loadAlbums
+                        isRefreshing = isRefreshing,
+                        onRefresh = viewModel::refreshAlbums
                     )
                 }
             }
