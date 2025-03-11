@@ -17,7 +17,8 @@ import com.example.leboncoinalbumlibrary.presentation.viewmodel.AlbumListUiState
 fun AlbumListScreen(
     state: AlbumListUiState,
     isRefreshing: Boolean,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onAlbumClick: (Int) -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -46,7 +47,8 @@ fun AlbumListScreen(
                 AlbumList(
                     albums = state.albums,
                     isRefreshing = isRefreshing,
-                    onRefresh = onRefresh
+                    onRefresh = onRefresh,
+                    onAlbumClick = { album -> onAlbumClick(album.id) }
                 )
             }
 

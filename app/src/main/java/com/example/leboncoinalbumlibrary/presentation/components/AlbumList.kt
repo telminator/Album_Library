@@ -17,7 +17,8 @@ import com.example.leboncoinalbumlibrary.domain.model.Album
 fun AlbumList(
     albums: List<Album>,
     isRefreshing: Boolean,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    onAlbumClick: (Album) -> Unit
 ) {
     PullToRefreshBox(
         isRefreshing = isRefreshing,
@@ -32,7 +33,10 @@ fun AlbumList(
                 items = albums,
                 key = { _, album -> album.id }
             ) { index, album ->
-                AlbumListItem(album)
+                AlbumListItem(
+                    album = album,
+                    onClick = { onAlbumClick(album) }
+                )
                 if (index != albums.size - 1) {
                     HorizontalDivider()
                 }

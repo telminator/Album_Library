@@ -19,7 +19,7 @@ class AlbumRepository @Inject constructor(
     // Get local album data
     fun getAlbums(): Flow<List<Album>> {
         return dao.getAllAlbums().map { albumEntities ->
-            albumEntities.map { it.toDomainModel() }
+            albumEntities.map { it.toDomain() }
         }
     }
 
@@ -34,7 +34,7 @@ class AlbumRepository @Inject constructor(
         }
     }
 
-    private fun AlbumEntity.toDomainModel(): Album {
+    private fun AlbumEntity.toDomain(): Album {
         return Album(
             id = id,
             albumId = albumId,
@@ -53,15 +53,4 @@ class AlbumRepository @Inject constructor(
             thumbnailUrl = thumbnailUrl
         )
     }
-
-    private fun AlbumDto.toDomain(): Album {
-        return Album(
-            id = id,
-            albumId = albumId,
-            title = title,
-            url = url,
-            thumbnailUrl = thumbnailUrl
-        )
-    }
-
 }

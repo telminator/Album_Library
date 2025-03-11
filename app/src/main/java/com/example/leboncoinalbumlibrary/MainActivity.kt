@@ -7,7 +7,8 @@ import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
-import com.example.leboncoinalbumlibrary.presentation.components.AlbumListScreen
+import androidx.navigation.compose.rememberNavController
+import com.example.leboncoinalbumlibrary.presentation.navigation.AppNavGraph
 import com.example.leboncoinalbumlibrary.presentation.viewmodel.AlbumListViewModel
 import com.example.leboncoinalbumlibrary.ui.theme.LeboncoinAlbumLibraryTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,10 +25,12 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val navController = rememberNavController()
                     val state = viewModel.uiState.collectAsState().value
                     val isRefreshing = viewModel.isRefreshing.collectAsState().value
 
-                    AlbumListScreen(
+                    AppNavGraph(
+                        navController = navController,
                         state = state,
                         isRefreshing = isRefreshing,
                         onRefresh = viewModel::refreshAlbums
