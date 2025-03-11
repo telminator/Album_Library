@@ -1,5 +1,6 @@
 package com.example.leboncoinalbumlibrary.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,11 +18,15 @@ import coil.compose.AsyncImage
 import com.example.leboncoinalbumlibrary.domain.model.Album
 
 @Composable
-fun AlbumListItem(album: Album) {
+fun AlbumListItem(
+    album: Album,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     )
     {
