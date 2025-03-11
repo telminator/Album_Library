@@ -20,6 +20,9 @@ room = "2.6.1"
 okhttp-logging = "4.11.0"
 navigation-compose = "2.8.8"
 serialization = "1.6.3"
+mockito = "5.0.0"
+coroutines-test = "1.7.3"
+turbine = "1.0.0"
 
 
 [libraries]
@@ -52,6 +55,10 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp-logging" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
 
 
