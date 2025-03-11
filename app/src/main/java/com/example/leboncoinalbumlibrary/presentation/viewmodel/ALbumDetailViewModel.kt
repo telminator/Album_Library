@@ -30,9 +30,8 @@ class AlbumDetailViewModel @Inject constructor(
 
     private fun loadAlbum() {
         viewModelScope.launch {
-            repository.getAlbums()
-                .collect { albums ->
-                    val album = albums.find { it.id == albumId }
+            repository.getAlbumById(albumId)
+                .collect { album ->
                     _albumState.value = album
                 }
         }

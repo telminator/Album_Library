@@ -18,8 +18,17 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: AlbumListViewModel by viewModels()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // refresh from server when app returns to foreground
+        lifecycle.addObserver(object : androidx.lifecycle.DefaultLifecycleObserver {
+            override fun onResume(owner: androidx.lifecycle.LifecycleOwner) {
+                viewModel.refreshAlbums()
+            }
+        })
+
         setContent {
             LeboncoinAlbumLibraryTheme {
                 Surface(
@@ -28,15 +37,23 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val state = viewModel.uiState.collectAsState().value
                     val isRefreshing = viewModel.isRefreshing.collectAsState().value
+                    val isLoadingMore = viewModel.isLoadingMore.collectAsState().value
+                    val scrollPosition = viewModel.scrollPosition.collectAsState().value
 
                     AppNavGraph(
                         navController = navController,
                         state = state,
                         isRefreshing = isRefreshing,
-                        onRefresh = viewModel::refreshAlbums
+                        isLoadingMore = isLoadingMore,
+                        scrollPosition = scrollPosition,
+                        onScrollPositionChanged = viewModel::saveScrollPosition,
+                        onRefresh = viewModel::refreshAlbums,
+                        onLoadMore = viewModel::loadNextPage,
                     )
                 }
             }
         }
     }
+
+
 }
