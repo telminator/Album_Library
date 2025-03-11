@@ -22,7 +22,11 @@ fun AppNavGraph(
     navController: NavHostController,
     state: AlbumListUiState,
     isRefreshing: Boolean,
-    onRefresh: () -> Unit
+    isLoadingMore: Boolean,
+    scrollPosition: Int,
+    onScrollPositionChanged: (Int) -> Unit,
+    onRefresh: () -> Unit,
+    onLoadMore: () -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -32,7 +36,11 @@ fun AppNavGraph(
             AlbumListScreen(
                 state = state,
                 isRefreshing = isRefreshing,
+                isLoadingMore = isLoadingMore,
+                scrollPosition = scrollPosition,
                 onRefresh = onRefresh,
+                onScrollPositionChanged = onScrollPositionChanged,
+                onLoadMore = onLoadMore,
                 onAlbumClick = { albumId ->
                     navController.navigate(AlbumDetailRoute(albumId))
                 }

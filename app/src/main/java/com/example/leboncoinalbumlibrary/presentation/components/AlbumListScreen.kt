@@ -17,7 +17,11 @@ import com.example.leboncoinalbumlibrary.presentation.viewmodel.AlbumListUiState
 fun AlbumListScreen(
     state: AlbumListUiState,
     isRefreshing: Boolean,
+    isLoadingMore: Boolean,
+    scrollPosition: Int,
+    onScrollPositionChanged: (Int) -> Unit,
     onRefresh: () -> Unit,
+    onLoadMore: () -> Unit,
     onAlbumClick: (Int) -> Unit
 ) {
     Box(
@@ -47,8 +51,12 @@ fun AlbumListScreen(
                 AlbumList(
                     albums = state.albums,
                     isRefreshing = isRefreshing,
+                    isLoadingMore = isLoadingMore,
                     onRefresh = onRefresh,
-                    onAlbumClick = { album -> onAlbumClick(album.id) }
+                    onLoadMore = onLoadMore,
+                    scrollPosition = scrollPosition,
+                    onScrollPositionChanged = onScrollPositionChanged,
+                    onAlbumClick = onAlbumClick
                 )
             }
 
