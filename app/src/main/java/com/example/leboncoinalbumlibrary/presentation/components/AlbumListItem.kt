@@ -12,16 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.leboncoinalbumlibrary.domain.model.Album
 
-@Preview
 @Composable
-fun AlbumListItem(@PreviewParameter(SampleAlbumProvider::class) album: Album) {
+fun AlbumListItem(album: Album) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,18 +45,4 @@ fun AlbumListItem(@PreviewParameter(SampleAlbumProvider::class) album: Album) {
             )
         }
     }
-}
-
-
-class SampleAlbumProvider : PreviewParameterProvider<Album> {
-    override val values: Sequence<Album>
-        get() = sequenceOf(
-            Album(
-                albumId = 1,
-                id = 2,
-                title = "accusamus beatae ad facilis cum similique qui sunt",
-                url = "https://placehold.co/600x600/771796/white/png",
-                thumbnailUrl = "https://placehold.co/150x150/771796/white/png"
-            )
-        )
 }

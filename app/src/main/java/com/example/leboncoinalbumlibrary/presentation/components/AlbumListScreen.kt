@@ -16,7 +16,8 @@ import com.example.leboncoinalbumlibrary.presentation.viewmodel.AlbumListUiState
 @Composable
 fun AlbumListScreen(
     state: AlbumListUiState,
-    onRetry: () -> Unit
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -29,14 +30,24 @@ fun AlbumListScreen(
             }
 
             is AlbumListUiState.Empty -> {
-                Text(
-                    text = "No albums found",
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                if (isRefreshing) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                } else {
+                    Text(
+                        text = "No albums found",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
 
             is AlbumListUiState.Success -> {
-                AlbumList(albums = state.albums)
+                AlbumList(
+                    albums = state.albums,
+                    isRefreshing = isRefreshing,
+                    onRefresh = onRefresh
+                )
             }
 
             is AlbumListUiState.Error -> {

@@ -8,6 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,23 +22,47 @@ class AlbumListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<AlbumListUiState>(AlbumListUiState.Loading)
     val uiState: StateFlow<AlbumListUiState> = _uiState.asStateFlow()
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
     init {
         loadAlbums()
+        refreshAlbums()
     }
 
     fun loadAlbums() {
-        viewModelScope.launch {
-            _uiState.value = AlbumListUiState.Loading
-
-            try {
-                val albums = repository.getAlbums()
-                _uiState.value = if (albums.isEmpty()) {
-                    AlbumListUiState.Empty
+        repository.getAlbums()
+            .onEach { albums ->
+                if (albums.isEmpty()) {
+                    if (_uiState.value !is AlbumListUiState.Loading) {
+                        _uiState.value = AlbumListUiState.Empty
+                    }
                 } else {
-                    AlbumListUiState.Success(albums)
+                    _uiState.value = AlbumListUiState.Success(albums)
                 }
+            }
+            .catch { e ->
+                if (_uiState.value !is AlbumListUiState.Success) {
+                    _uiState.value = AlbumListUiState.Error(e.message ?: "Something wrong happened")
+                }
+            }
+            .launchIn(viewModelScope)
+
+    }
+
+    fun refreshAlbums() {
+        viewModelScope.launch {
+            _isRefreshing.value = true
+            try {
+                repository.refreshAlbums()
             } catch (e: Exception) {
-                _uiState.value = AlbumListUiState.Error(e.message ?: "Something wrong happened")
+                // We'll show error only if we don't have cached data
+                if (_uiState.value !is AlbumListUiState.Success) {
+                    _uiState.value = AlbumListUiState.Error(e.message ?: "Unknown error")
+                }
+            } finally {
+                // Make sure to reset the refreshing state when done
+                _isRefreshing.value = false
             }
         }
     }
